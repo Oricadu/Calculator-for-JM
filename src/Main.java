@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -6,18 +7,37 @@ public class Main {
         System.out.println("Hello");
 
         Scanner scanner = new Scanner(System.in);
-        /*Calculator calculator = new Calculator(scanner.nextLine());
-        System.out.println(calculator.getFirstNum() + " " +
-                calculator.getSign() + " " +
-                calculator.getSecondNum() + " = " +
-                calculator.getResult());*/
+        Calculator calculator = null;
         String str;
-        String regex = "([I]{0,3})|(I?V)|(V(I){1,3})|(I?X)";
+        /*do{
+            str = scanner.nextLine();
+            try {
+                calculator = new Calculator(str);
+            } catch (UserInputException e) {
+                e.printStackTrace();
+            }
+            System.out.println(calculator.getFirstNum() + " " +
+                    calculator.getSign() + " " +
+                    calculator.getSecondNum() + " = " +
+                    calculator.getResult());
+        }while(!str.equals("0"));*/
+
+
+        /*String str;
+        String regex = "(([I]{0,3})|(I?V)|(V(I){1,3})|(I?X))[-+/*](([I]{0,3})|(I?V)|(V(I){1,3})|(I?X))";
         do {
 
             str = scanner.nextLine();
             boolean matches = Pattern.matches(regex, str);
             System.out.println(str + " " + matches);
-        }while (!str.equals(""));
+        }while (!str.equals(""));*/
+
+        int number = 9;
+        String result = "";
+
+        //System.out.println(num);
+
+
+
     }
 }
