@@ -1,21 +1,23 @@
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Calculator {
     private int firstNum = 0;
     private int secondNum = 0;
     private char sign;
-    private int result = 0;
+    private String result = "";
+    private String input;
 
-    public int calculate(int firstNum, int secondNum, char sign) {
+    public String calculate(int firstNum, int secondNum, char sign) {
         switch (sign) {
             case '+':
-                return result = firstNum + secondNum;
+                return result = "" + (firstNum + secondNum);
             case '*':
-                return result = firstNum * secondNum;
+                return result = "" + (firstNum * secondNum);
             case '/':
-                return result = firstNum / secondNum;
+                return result = "" + (firstNum / secondNum);
             case '-':
-                return result = firstNum - secondNum;
+                return result = "" + (firstNum - secondNum);
 
 
         }
@@ -34,24 +36,31 @@ public class Calculator {
         return sign;
     }
 
-    public int getResult() {
+    public String getInput() {
+        return input;
+    }
+
+    public String getResult() {
         return result;
     }
 
     Calculator(String str) throws UserInputException {
-        checkString(str);
-        calculate(firstNum, secondNum, sign);
+        this.input = str.toUpperCase();
+        if (checkString(str) == 'a'){
+            calculate(firstNum, secondNum, sign);
+
+        }else {
+            result = convertToRoman(Integer.parseInt(calculate(firstNum, secondNum, sign)));
+        }
     }
 
-    private void checkString(String str) throws UserInputException{
+    private char checkString(String str) throws UserInputException{
         String sq = "";
         char flag = 0;
         str = str.replaceAll(" ", "");
         str = str.toUpperCase();
-        String regex = "([0-9]|10)[-+/*]([0-9]|10)";
+        String regex = "([1-9]|10)[-+/*]([1-9]|10)";
         boolean matches = Pattern.matches(regex, str);
-        System.out.println(matches);
-        System.out.println(str);
         if (matches){
             char[] chars = str.toCharArray();
             for (int i = 0; i < chars.length; i++){
@@ -65,12 +74,11 @@ public class Calculator {
 
             }
             this.secondNum = Integer.parseInt(sq);
+            flag = 'a';
 
         }else{
             regex = "(([I]{0,3})|(I?V)|(V(I){1,3})|(I?X))[-+/*](([I]{0,3})|(I?V)|(V(I){1,3})|(I?X))";
             matches = Pattern.matches(regex, str);
-            System.out.println(matches);
-            System.out.println(str);
             if (matches){
                 char[] chars = str.toCharArray();
                 for (int i = 0; i < chars.length; i++){
@@ -87,12 +95,14 @@ public class Calculator {
 
                 }
                 this.secondNum = convertToArabic(sq);
+                flag = 'r';
 
             }else{
                 throw new UserInputException("input is incorrect");
             }
 
         }
+        return flag;
 
     }
 
@@ -111,10 +121,9 @@ public class Calculator {
                     arr[i] = 10;
                     break;
 
+
             }
-            //System.out.print(arr[i]);
         }
-        //System.out.println();
         int result;
         if (arr.length == 1){
             result = arr[0];
@@ -136,14 +145,22 @@ public class Calculator {
 
         }
 
-
-        //System.out.println(result);
-
         return result;
     }
 
     private String convertToRoman(int number){
         String result = "";
+        int i = 0;
+        List<RomanNumbers> romanNumbersList = RomanNumbers.getReverseSortedValues();
+        while ((number > 0) && (i < romanNumbersList.size())){
+            RomanNumbers cur = romanNumbersList.get(i);
+            if(cur.getNum() <= number){
+                result += cur.name();
+                number -= cur.getNum();
+            }else{
+                i++;
+            }
+        }
 
         return result;
     }
